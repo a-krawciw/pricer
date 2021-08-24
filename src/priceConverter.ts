@@ -1,4 +1,5 @@
-type Unit = "lb" |  "kg" | "g"
+const units = ['lb', 'kg', 'g', '100g'] as const
+export type Unit = typeof units[number]
 
 /*
 Convert unit to kg
@@ -8,8 +9,16 @@ function scale_unit(unit: Unit) {
         return 0.453592
     else if (unit === "g")
         return 0.001
+    else if(unit === "100g")
+        return 0.1
     else
         return 1
+}
+
+export function isUnit(str: string) {
+    const sheepName = units.find((validName) => validName === str);
+    return !!sheepName;
+
 }
 
 
