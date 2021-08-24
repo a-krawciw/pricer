@@ -10,7 +10,8 @@ type GroceryState = {
 }
 type GroceryProps = {
     name: GroceryStore
-    commonUnit: Unit}
+    commonUnit: Unit
+}
 
 
 class GroceryPane extends React.Component<GroceryProps, GroceryState> {
@@ -28,20 +29,25 @@ class GroceryPane extends React.Component<GroceryProps, GroceryState> {
     }
 
     onNewValue(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({value: parseFloat(event.target.value)})
+        this.setState({value: Number.parseFloat(event.target.textContent || "nan")})
     }
 
     render() {
         const name = this.props.name
         const commonValue = convertValue(this.state.value, this.props.commonUnit, this.state.currentUnit)
         return (
-            <div id={name + "_main"} className="grocery_banner">
+            <div id={name + "_main"} className="grocery_banner center">
                 <img src={process.env.PUBLIC_URL + "/img/" + name + ".png"} alt={"Logo for " + name}
                      className="groceryLogo"/>
-                $<textarea className="editValue" onChange={this.onNewValue}/>
-                /{unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
-                $<label className="outputValue" contentEditable={false} >{commonValue.toFixed(2)}</label>
-                /{this.props.commonUnit}
+                <div className={"center"}>
+                    $<span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
+                    /{unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
+                </div>
+                <div className={"center"}>
+                    $<label className="outputValue" contentEditable={false}>{commonValue.toFixed(2)}</label>
+                    /{this.props.commonUnit}
+                </div>
+
             </div>
         )
     }
@@ -72,14 +78,14 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
         this.onCommonUnitChange = this.onCommonUnitChange.bind(this)
     }
 
-    onCommonUnitChange(event: React.ChangeEvent<HTMLSelectElement>){
+    onCommonUnitChange(event: React.ChangeEvent<HTMLSelectElement>) {
         let newUnit = event.target.value as Unit
         this.setState({commonUnit: newUnit})
         this.updateAllChildren(newUnit)
         console.log(newUnit)
     }
 
-    updateAllChildren(newUnit: Unit){
+    updateAllChildren(newUnit: Unit) {
         let elems = Array.from(document.getElementsByClassName("commonUnit"));
         elems.forEach((elem) => {
             elem.removeAttribute('readonly');
@@ -91,20 +97,19 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
 
     render() {
         return (<div><h1>Set your output units</h1>
-        {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
-                <GroceryPane name={"Thrifty"} commonUnit={this.state.commonUnit}/>
-                <GroceryPane name={"SaveOnFoods"} commonUnit={this.state.commonUnit} />
-                <GroceryPane name={"CountryGrocer"} commonUnit={this.state.commonUnit} />
+            {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
+            <GroceryPane name={"Thrifty"} commonUnit={this.state.commonUnit}/>
+            <GroceryPane name={"SaveOnFoods"} commonUnit={this.state.commonUnit}/>
+            <GroceryPane name={"CountryGrocer"} commonUnit={this.state.commonUnit}/>
         </div>)
     }
 }
 
 
-
 function App() {
     return (
         <div className="App">
-            <UnitGroup default={"100g"} />
+            <UnitGroup default={"100g"}/>
         </div>
     );
 }
