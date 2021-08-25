@@ -6,6 +6,7 @@ import {convertValue, Unit} from "./priceConverter";
 type GroceryStore = "Thrifty" | "SaveOnFoods" | "CountryGrocer"
 type GroceryState = {
     value: number
+    weight: number
     currentUnit: Unit
 }
 type GroceryProps = {
@@ -17,10 +18,11 @@ type GroceryProps = {
 class GroceryPane extends React.Component<GroceryProps, GroceryState> {
     constructor(props: GroceryProps) {
         super(props);
-        this.state = {value: 0, currentUnit: "kg"};
+        this.state = {value: 0, weight: 1, currentUnit: "kg"};
 
         this.onLocalUnitChange = this.onLocalUnitChange.bind(this)
         this.onNewValue = this.onNewValue.bind(this)
+        this.onNewWeight = this.onNewWeight.bind(this)
     }
 
     onLocalUnitChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -32,16 +34,21 @@ class GroceryPane extends React.Component<GroceryProps, GroceryState> {
         this.setState({value: Number.parseFloat(event.target.textContent || "nan")})
     }
 
+    onNewWeight(event: React.ChangeEvent<HTMLTextAreaElement>) {
+        this.setState({weight: Number.parseFloat(event.target.textContent || "1")})
+    }
+
     render() {
         const name = this.props.name
-        const commonValue = convertValue(this.state.value, this.props.commonUnit, this.state.currentUnit)
+        const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
         return (
             <div id={name + "_main"} className="grocery_banner center">
                 <img src={process.env.PUBLIC_URL + "/img/" + name + ".png"} alt={"Logo for " + name}
                      className="groceryLogo"/>
                 <div className={"center"}>
                     $<span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
-                    /{unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
+                    /<span contentEditable={"true"} className="editValue textarea" onInput={this.onNewWeight} >1</span>
+                    {unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
                 </div>
                 <div className={"center"}>
                     $<label className="outputValue" contentEditable={false}>{commonValue.toFixed(2)}</label>
@@ -58,7 +65,6 @@ function unitSelector(currentUnit: Unit, selectHandler: React.ChangeEventHandler
         <option value="g">g</option>
         <option value="kg">kg</option>
         <option value="lb">lb</option>
-        <option value="100g">100g</option>
     </select>)
 }
 
@@ -109,7 +115,7 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
 function App() {
     return (
         <div className="App">
-            <UnitGroup default={"100g"}/>
+            <UnitGroup default={"kg"}/>
         </div>
     );
 }
