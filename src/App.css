@@ -47,5 +47,5 @@
 
 .textarea[contenteditable]:empty::before {
   content: "Enter price";
-  color: gray;
+  color: #E2E1E5;
 }
