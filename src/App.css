@@ -49,3 +49,8 @@
   content: "Enter price";
   color: #E2E1E5;
 }
+
+.weightarea[contenteditable]:empty::before {
+  content: "Enter weight";
+  color: #E2E1E5;
+}
