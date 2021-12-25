@@ -38,14 +38,14 @@
 
 .bottom_line {
   padding-bottom: 5px;
-  border-bottom: black thin solid;
+  outline-bottom: 50% black thin solid;
   margin-bottom: 0;
 }
 
 .top_line {
   margin-top: 0;
   padding-top: 5px;
-  border-top: black thin solid;
+  outline: black solid 50%;
 }
 
 .textarea {

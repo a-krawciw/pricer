@@ -3,14 +3,12 @@ import './App.css';
 import {convertValue, Unit} from "./priceConverter";
 
 
-type GroceryStore = "Thrifty" | "SaveOnFoods" | "CountryGrocer"
 type GroceryState = {
     value: number
     weight: number
     currentUnit: Unit
 }
 type GroceryProps = {
-    name: GroceryStore
     commonUnit: Unit
 }
 
@@ -39,10 +37,9 @@ class GroceryPane extends React.Component<GroceryProps, GroceryState> {
     }
 
     render() {
-        const name = this.props.name
         const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
         return (
-            <div id={name + "_main"} className="grocery_banner">
+            <div id={"main"} className="grocery_banner">
                 <div className={""}>
                     <div className={"bottom_line"}>
                         <span>$</span><span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
@@ -106,7 +103,7 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
     render() {
         return (<div><h1>Select Output Units:</h1>
             {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
-            <GroceryPane name={"Thrifty"} commonUnit={this.state.commonUnit}/>
+            <GroceryPane commonUnit={this.state.commonUnit}/>
         </div>)
     }
 }
