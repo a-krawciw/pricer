@@ -3,6 +3,8 @@ import './App.css';
 import {convertValue, Unit} from "./priceConverter";
 
 
+
+
 type UnitGroupProps = {
     default: Unit
 }
@@ -150,7 +152,7 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
         return (<div id={"idk"}>
             <div id={"main"}>
             <div id={"selUni"}>
-                <span >Select Output Units:</span>
+                <span id={"topBar"}>Select Output Units:</span>
              {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
             </div>
             <UnitInputPane commonUnit={this.state.commonUnit} saveCommand={this.addToHistory.bind(this)}/>

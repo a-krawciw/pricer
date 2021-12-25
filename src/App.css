@@ -13,7 +13,7 @@ body{
   text-align: center;
 
 }
-h1{
+span{
   color: darkblue;
 }
 #main{
@@ -39,6 +39,11 @@ h1{
   display: flex;
   flex-direction: column;
 }
+
+#topBar{
+  font-family: 'Staatliches', cursive;
+  font-size: x-large;
+}
 .grocery_banner {
   font-size: xx-large !important;
   vertical-align: center;
@@ -53,12 +58,13 @@ h1{
 }
 
 .grocery_banner textarea, .grocery_banner select {
-  font-size: xx-large !important;
+  /*font-size: xx-large !important;
   font-family: 'Roboto Condensed', sans-serif !important;
   white-space: normal;
   width: 3em;
   display:inline-block;
   vertical-align:middle;
+   */
 
 }
 
@@ -89,9 +95,6 @@ h1{
   color: var(--main-bg-color);
 }
 
-.unitselector{
-  border: darkblue;
-}
 
 #selUni{
   margin-bottom: 10px;
@@ -100,10 +103,19 @@ span.textarea{
   background-color: white;
   margin: 3px;
   padding: 3px;
+  font-size: medium;
 }
 
 span.editValue{
   background-color: white;
   margin: 3px;
   padding: 3px;
+  font-size: medium;
+}
+
+
+.unit_selector{
+  border: darkblue;
+  border-width: 20px;
+  font-size: medium;
 }
