@@ -31,7 +31,7 @@ type HistoryProps = {
 }
 
 function makeNumeric(str: String) {
-    return  str.replace(/\D/g,'');
+    return  str.replace(/[^\d.]/g,'');
 }
 
 class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
@@ -64,8 +64,8 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     }
 
     saveState() {
-        const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
-        const command = "$" + commonValue.toFixed(2) + "/" + this.props.commonUnit;
+        const commonValue = this.generateFormattedValue();
+        const command = "$" + commonValue + "/" + this.props.commonUnit;
         this.props.saveCommand(command);
     }
 
@@ -89,9 +89,17 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
         }
     }
 
+    generateFormattedValue(){
+        let full_val = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit);
+        if (full_val < 1){
+            return full_val.toPrecision(3);
+        } else {
+            return full_val.toFixed(2);
+        }
+    }
 
     render() {
-        const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
+        const commonValue = this.generateFormattedValue();
         return (
             <div id={"NOTmain"} className="grocery_banner">
                 <div className={""} onLoad={this.setPlaceholder}>
@@ -104,7 +112,7 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
                     </div>
                 </div>
                 <div className={""}>
-                    <span>$</span><label className="outputValue" contentEditable={false}>{commonValue.toFixed(2)}</label>
+                    <span>$</span><label className="outputValue" contentEditable={false}>{commonValue}</label>
                     /{this.props.commonUnit}
                     <button onClick={this.saveState}>Save to History</button>
                     <button onClick={this.resetFields}>Reset</button>
