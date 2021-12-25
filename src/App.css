@@ -14,26 +14,31 @@ body{
 
 }
 span{
-  color: darkblue;
+
 }
 #main{
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   height: 60vh;
-  width: 80%;
+  width: 90%;
   align-content: center;
   margin: 5px;
   background-color: #EBF1FE;
+  color: darkblue;
 }
 #history{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   height: 40vh;
-  width: 80%;
+  width: 90%;
   align-content: center;
   background-color: #F7D7D7;
   margin: 10px;
+  font-family: 'Staatliches', cursive;
+  color: #CA1F1F;
+  font-size: 150%;
 }
+
 #idk{
   align-items: center;
   display: flex;
@@ -42,7 +47,7 @@ span{
 
 #topBar{
   font-family: 'Staatliches', cursive;
-  font-size: x-large;
+  margin-right: 10px;
 }
 .grocery_banner {
   font-size: xx-large !important;
@@ -97,25 +102,28 @@ span{
 
 
 #selUni{
-  margin-bottom: 10px;
+  margins: 10px;
+  margin-top: 20px;
+  padding: 5px;
+  font-size: 200%;
 }
 span.textarea{
   background-color: white;
   margin: 3px;
   padding: 3px;
-  font-size: medium;
+  font-size: 70%;
 }
 
 span.editValue{
   background-color: white;
   margin: 3px;
   padding: 3px;
-  font-size: medium;
+  font-size: 70%;
 }
 
 
 .unit_selector{
   border: darkblue;
   border-width: 20px;
-  font-size: medium;
+  font-size: 70%;
 }
