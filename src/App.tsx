@@ -24,10 +24,7 @@ type GroceryProps = {
 
 type HistoryProps = {
     previousCommands: Array<String>
-}
-
-type HistoryState = {
-    conversions: Array<String>
+    clearCommand: Function
 }
 
 class GroceryPane extends React.Component<GroceryProps, GroceryState> {
@@ -93,19 +90,22 @@ function unitSelector(currentUnit: Unit, selectHandler: React.ChangeEventHandler
 }
 
 
-class HistoryPanel extends React.Component<HistoryProps, HistoryState> {
-
+class HistoryPanel extends React.Component<HistoryProps> {
 
     constructor(props: HistoryProps) {
         super(props);
-        this.state = {conversions: props.previousCommands};
+        this.clearHistory = this.clearHistory.bind(this);
     }
 
+    clearHistory(){
+        this.props.clearCommand()
+    }
 
     render() {
         return (<div>
                 <span className={"label"}>History:</span>
-                {this.state.conversions.map((x: String, idx: number) => <div key={idx} className={"line"}> {x}</div>)}
+                {this.props.previousCommands.map((x: String, idx: number) => <div key={idx} className={"line"}> {x}</div>)}
+                <button className={"action"} onClick={this.clearHistory} >Clear History</button>
             </div>
         );
     }
@@ -115,7 +115,7 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
 
     constructor(props: UnitGroupProps) {
         super(props);
-        this.state = {commonUnit: props.default, conversions: []};
+        this.state = {commonUnit: props.default, conversions: [""]};
         this.onCommonUnitChange = this.onCommonUnitChange.bind(this);
         this.addToHistory = this.addToHistory.bind(this);
     }
@@ -142,12 +142,15 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
         this.setState({conversions: this.state.conversions})
     }
 
+    clearHistory(){
+        this.setState({conversions: [""]})
+    }
 
     render() {
         return (<div><h1>Select Output Units:</h1>
             {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
             <GroceryPane commonUnit={this.state.commonUnit} saveCommand={this.addToHistory.bind(this)}/>
-            <HistoryPanel  previousCommands={this.state.conversions}/>
+            <HistoryPanel  previousCommands={this.state.conversions} clearCommand={this.clearHistory.bind(this)}/>
         </div>)
     }
 }
