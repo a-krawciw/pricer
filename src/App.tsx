@@ -60,7 +60,7 @@ class GroceryPane extends React.Component<GroceryProps, GroceryState> {
     render() {
         const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
         return (
-            <div id={"main"} className="grocery_banner">
+            <div id={"NOTmain"} className="grocery_banner">
                 <div className={""}>
                     <div className={"bottom_line"}>
                         <span>$</span><span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
@@ -146,10 +146,15 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
     }
 
     render() {
-        return (<div><h1>Select Output Units:</h1>
+        return (<div>
+            <div id={"main"}>
+            <h1>Select Output Units:</h1>
             {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
             <GroceryPane commonUnit={this.state.commonUnit} saveCommand={this.addToHistory.bind(this)}/>
+            </div>
+            <div id={"history"}>
             <HistoryPanel  previousCommands={this.state.conversions} clearCommand={this.clearHistory.bind(this)}/>
+            </div>
         </div>)
     }
 }
