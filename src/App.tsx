@@ -47,7 +47,7 @@ class GroceryPane extends React.Component<GroceryProps, GroceryState> {
                      className="groceryLogo"/>
                 <div className={"center"}>
                     $<span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
-                    /<span contentEditable={"true"} className="editValue textarea" onInput={this.onNewWeight} >1</span>
+                    /<span contentEditable={"true"} className="editValue weightarea" onInput={this.onNewWeight} ></span>
                     {unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
                 </div>
                 <div className={"center"}>
