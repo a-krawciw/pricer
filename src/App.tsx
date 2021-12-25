@@ -30,6 +30,9 @@ type HistoryProps = {
     clearCommand: Function
 }
 
+function makeNumeric(str: String) {
+    return  str.replace(/\D/g,'');
+}
 
 class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     constructor(props: UnitInputProps) {
@@ -49,11 +52,15 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     }
 
     onNewValue(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({value: Number.parseFloat(event.target.textContent || "nan")})
+        let strippedStr = makeNumeric(event.target.textContent || "nan");
+        this.setState({value: Number.parseFloat(strippedStr)});
+        event.target.textContent = strippedStr;
     }
 
     onNewWeight(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({weight: Number.parseFloat(event.target.textContent || "1")})
+        let strippedStr = makeNumeric(event.target.textContent || "1");
+        this.setState({weight: Number.parseFloat(strippedStr)})
+        event.target.textContent = strippedStr;
     }
 
     saveState() {
@@ -63,6 +70,7 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     }
 
     resetFields() {
+        this.setState({weight: 1, value: 0});
         let elems = document.getElementsByClassName("editValue");
         for (let edits in elems) {
             if (isDOMComponent(elems[edits])){
@@ -107,11 +115,11 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     }
 }
 
-function unitSelector(currentUnit: Unit, selectHandler: React.ChangeEventHandler<HTMLSelectElement>) {
+function unitSelector(currentUnit: Unit, selectHandler: React.ChangeEventHandler<HTMLSelectElement>, prefix="") {
     return (<select value={currentUnit} className={"unit_selector"} onChange={selectHandler}>
-        <option value="g">g</option>
-        <option value="kg">kg</option>
-        <option value="lb">lb</option>
+        <option value="g">{prefix}g</option>
+        <option value="kg">{prefix}kg</option>
+        <option value="lb">{prefix}lb</option>
     </select>)
 }
 
@@ -177,7 +185,7 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
             <div id={"main"}>
             <div id={"selUni"}>
                 <span id={"topBar"}>Select Output Units:</span>
-             {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
+             {unitSelector(this.state.commonUnit, this.onCommonUnitChange, "per ")}
             </div>
             <UnitInputPane commonUnit={this.state.commonUnit} saveCommand={this.addToHistory.bind(this)}/>
             </div>
@@ -192,7 +200,7 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
 function App() {
     return (
         <div className="App">
-            <UnitGroup default={"kg"}/>
+            <UnitGroup default={"lb"}/>
         </div>
     );
 }
