@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {convertValue, Unit} from "./priceConverter";
+import {isDOMComponent} from "react-dom/test-utils";
 
 
 
@@ -29,6 +30,7 @@ type HistoryProps = {
     clearCommand: Function
 }
 
+
 class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     constructor(props: UnitInputProps) {
         super(props);
@@ -38,6 +40,7 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
         this.onNewValue = this.onNewValue.bind(this)
         this.onNewWeight = this.onNewWeight.bind(this)
         this.saveState = this.saveState.bind(this)
+        this.resetFields = this.resetFields.bind(this);
     }
 
     onLocalUnitChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -59,23 +62,44 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
         this.props.saveCommand(command);
     }
 
+    resetFields() {
+        let elems = document.getElementsByClassName("editValue");
+        for (let edits in elems) {
+            if (isDOMComponent(elems[edits])){
+                elems[edits].textContent = "";
+            }
+        }
+    }
+
+    setPlaceholder() {
+        let elems = document.getElementsByClassName("editValue");
+                console.log("Trying")
+        for (let edits in elems) {
+            if (isDOMComponent(elems[edits])){
+                elems[edits].textContent = (elems[edits].attributes.getNamedItem("placeholder") || "") as string;
+            }
+        }
+    }
+
+
     render() {
         const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
         return (
             <div id={"NOTmain"} className="grocery_banner">
-                <div className={""}>
+                <div className={""} onLoad={this.setPlaceholder}>
                     <div className={"bottom_line"}>
-                        <span>$</span><span data-testid={"price_box"} contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
+                        <span>$</span><span data-testid={"price_box"} placeholder={"Enter Price"} contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
                     </div>
                     <div className={"top_line"}>
-                    <span contentEditable={"true"} className="editValue weightarea" onInput={this.onNewWeight} />
+                    <span itemID={"enterWeight"} contentEditable={"true"} placeholder={"Enter Weight"} className="editValue weightarea" onInput={this.onNewWeight} />
                     {unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
                     </div>
                 </div>
                 <div className={""}>
                     <span>$</span><label className="outputValue" contentEditable={false}>{commonValue.toFixed(2)}</label>
                     /{this.props.commonUnit}
-                <button onClick={this.saveState}>Save to History</button>
+                    <button onClick={this.saveState}>Save to History</button>
+                    <button onClick={this.resetFields}>Reset</button>
                 </div>
 
             </div>
