@@ -125,7 +125,6 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
         this.setState({commonUnit: newUnit})
         this.updateAllChildren(newUnit)
         console.log(newUnit)
-        this.addToHistory("Funtimes");
     }
 
     updateAllChildren(newUnit: Unit) {
