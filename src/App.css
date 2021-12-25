@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+:root {
+  --main-bg-color: #E2E1E5;
+}
+
 body{
   height: 100%;
   width: 100%;
@@ -42,13 +47,6 @@ h1{
   justify-content: space-around;
 }
 
-.groceryLogo {
-  position: relative;
-  top: 5%;
-  left: 0;
-  height: 90%;
-}
-
 .center {
   display: flex;
   align-items: center;
@@ -83,12 +81,12 @@ h1{
 
 .textarea[contenteditable]:empty::before {
   content: "Enter price";
-  color: #E2E1E5;
+  color: var(--main-bg-color);
 }
 
 .weightarea[contenteditable]:empty::before {
   content: "Enter weight";
-  color: #E2E1E5;
+  color: var(--main-bg-color);
 }
 
 .unitselector{
