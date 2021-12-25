@@ -146,10 +146,12 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
     }
 
     render() {
-        return (<div>
+        return (<div id={"idk"}>
             <div id={"main"}>
-            <h1>Select Output Units:</h1>
-            {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
+            <div id={"selUni"}>
+                <span >Select Output Units:</span>
+             {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
+            </div>
             <GroceryPane commonUnit={this.state.commonUnit} saveCommand={this.addToHistory.bind(this)}/>
             </div>
             <div id={"history"}>
