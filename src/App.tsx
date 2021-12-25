@@ -42,16 +42,18 @@ class GroceryPane extends React.Component<GroceryProps, GroceryState> {
         const name = this.props.name
         const commonValue = convertValue(this.state.value/this.state.weight, this.props.commonUnit, this.state.currentUnit)
         return (
-            <div id={name + "_main"} className="grocery_banner center">
-                <img src={process.env.PUBLIC_URL + "/img/" + name + ".png"} alt={"Logo for " + name}
-                     className="groceryLogo"/>
-                <div className={"center"}>
-                    $<span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
-                    /<span contentEditable={"true"} className="editValue weightarea" onInput={this.onNewWeight} ></span>
+            <div id={name + "_main"} className="grocery_banner">
+                <div className={""}>
+                    <div className={"bottom_line"}>
+                        <span>$</span><span contentEditable={"true"} className="editValue textarea" onInput={this.onNewValue} />
+                    </div>
+                    <div className={"top_line"}>
+                    <span contentEditable={"true"} className="editValue weightarea" onInput={this.onNewWeight} />
                     {unitSelector(this.state.currentUnit, this.onLocalUnitChange)}
+                    </div>
                 </div>
                 <div className={"center"}>
-                    $<label className="outputValue" contentEditable={false}>{commonValue.toFixed(2)}</label>
+                    <span>$</span><label className="outputValue" contentEditable={false}>{commonValue.toFixed(2)}</label>
                     /{this.props.commonUnit}
                 </div>
 
@@ -102,11 +104,9 @@ class UnitGroup extends React.Component<UnitGroupProps, UnitGroupState> {
     }
 
     render() {
-        return (<div><h1>Set your output units</h1>
+        return (<div><h1>Select Output Units:</h1>
             {unitSelector(this.state.commonUnit, this.onCommonUnitChange)}
             <GroceryPane name={"Thrifty"} commonUnit={this.state.commonUnit}/>
-            <GroceryPane name={"SaveOnFoods"} commonUnit={this.state.commonUnit}/>
-            <GroceryPane name={"CountryGrocer"} commonUnit={this.state.commonUnit}/>
         </div>)
     }
 }
