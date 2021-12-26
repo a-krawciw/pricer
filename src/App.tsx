@@ -52,14 +52,14 @@ class UnitInputPane extends React.Component<UnitInputProps, UnitInputState> {
     }
 
     onNewValue(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        let strippedStr = makeNumeric(event.target.textContent || "nan");
-        this.setState({value: Number.parseFloat(strippedStr)});
+        let strippedStr = makeNumeric(event.target.textContent || "");
+        this.setState({value: Number.parseFloat(strippedStr || "0")});
         event.target.textContent = strippedStr;
     }
 
     onNewWeight(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        let strippedStr = makeNumeric(event.target.textContent || "1");
-        this.setState({weight: Number.parseFloat(strippedStr)})
+        let strippedStr = makeNumeric(event.target.textContent || "");
+        this.setState({weight: Number.parseFloat(strippedStr || "1")})
         event.target.textContent = strippedStr;
     }
 
